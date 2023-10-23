@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nom_nom_express/home.dart';
+import 'package:nom_nom_express/signlog.dart';
 
 double fem = 1;
 double ffem = 1;
@@ -7,6 +8,7 @@ double ffem = 1;
 void main() {
   runApp(MaterialApp(
     home: MyHomePage(title: 'home'),
+    
   ));
 }
 
@@ -43,11 +45,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/home',
       routes: {
-        '/home': (context) => MyHomePage(title: 'home',),
+        //'/home': (context) => MyHomePage(title: 'home',),
+        '/signlog': (context) => LoginSignupPage(),
         // '/profile': (context) => ProfilePage(),
         // '/billing': (context) => BillingPage(),
         // '/menu': (context) => MenuPage(),
-        // '/signin': (context) => SignInPage(),
+        
         // '/login': (context) => LoginPage(),
         // '/welcome': (context) => WelcomePage(),
       },
