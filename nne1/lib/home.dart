@@ -1,42 +1,21 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 
-double fem = 1;
-double ffem = 1;
-
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.surface ,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Row(
           children: [
-            
-            // Container in the center of the app bar
             Container(
               margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Row(
                 children: [
-                  // GPS pin icon
                   Container(
                     margin: EdgeInsets.only(right: 10),
                     child: Icon(
@@ -47,66 +26,60 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-
-            // Dropdown button
             Container(
               margin: EdgeInsets.only(left: 10),
               child: MyDropdownWidget(),
             ),
           ],
         ),
-
-        // Profile icon button on the right
         actions: [
           ProfileIconButton(),
         ],
       ),
-
-      // Drawer with menu items
       drawer: Drawer(
-  child: ListView(
-    children: <Widget>[
-      DrawerHeader(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-        ),
-        child: Text(
-          'nom-nom express',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSecondary,
-            fontSize: 30,
-          ),
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Text(
+                'nom-nom express',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 30,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: ListTile(
+                title: Text('Home'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                // Add your code to handle the click event for "Favorites"
+              },
+              child: ListTile(
+                title: Text('favorites'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/signlog');
+              },
+              child: ListTile(
+                title: Text('login/signup'),
+              ),
+            ),
+          ],
         ),
       ),
-      GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/home');
-        },
-        child: ListTile(
-          title: Text('Home'),
-        ),
-      ),
-      GestureDetector(
-        onTap: () {
-          // Add your code to handle the click event for "Favorites"
-        },
-        child: ListTile(
-          title: Text('favorites'),
-        ),
-      ),
-      GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/signlog');
-        },
-        child: ListTile(
-          title: Text('login/signup'),
-        ),
-      ),
-    ],
-  ),
-)
 
-//------------------------------------------------body-----------------------------------------
+      //------------------------------------------------------body----------------------------------------------------
       // body: ListView(
       //   children: <Widget>[
       //     // "Mind" Section
@@ -118,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //           GridView.builder(
       //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       //             shrinkWrap: true,
-      //             itemCount: 4,
+      //             itemCount: mindPictures.length,
       //             itemBuilder: (context, index) {
       //               return InkWell(
       //                 onTap: () {
@@ -138,7 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //         ],
       //       ),
       //     ),
-
       //     // "Store" Section
       //     Column(
       //       crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //         ),
       //       ],
       //     ),
-
       //     // "Today" Section
       //     Column(
       //       crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,17 +164,20 @@ class _MyHomePageState extends State<MyHomePage> {
       //       ],
       //     ),
       //   ],
-      // )
-
+      // ),
     );
-    
   }
 }
+
+
+
+
 
 class MyDropdownWidget extends StatefulWidget {
   const MyDropdownWidget({Key? key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyDropdownWidgetState createState() => _MyDropdownWidgetState();
 }
 
