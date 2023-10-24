@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,94 +80,145 @@ class MyHomePage extends StatelessWidget {
       ),
 
       //------------------------------------------------------body----------------------------------------------------
-      // body: ListView(
-      //   children: <Widget>[
-      //     // "Mind" Section
-      //     Container(
-      //       alignment: Alignment.center,
-      //       child: Column(
-      //         children: <Widget>[
-      //           Text("Mind", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      //           GridView.builder(
-      //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      //             shrinkWrap: true,
-      //             itemCount: mindPictures.length,
-      //             itemBuilder: (context, index) {
-      //               return InkWell(
-      //                 onTap: () {
-      //                   // Add navigation logic to open a new page
-      //                 },
-      //                 child: Column(
-      //                   children: <Widget>[
-      //                     ClipOval(
-      //                       child: Image.network(mindPictures[index].imageUrl, width: 100, height: 100, fit: BoxFit.cover),
-      //                     ),
-      //                     Text(mindPictures[index].description),
-      //                   ],
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     // "Store" Section
-      //     Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: <Widget>[
-      //         Text("Store", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      //         Container(
-      //           height: 150,
-      //           child: ListView.builder(
-      //             scrollDirection: Axis.horizontal,
-      //             itemCount: storePictures.length,
-      //             itemBuilder: (context, index) {
-      //               return InkWell(
-      //                 onTap: () {
-      //                   // Add navigation logic to open a new page
-      //                 },
-      //                 child: Column(
-      //                   children: <Widget>[
-      //                     Image.network(storePictures[index].imageUrl, width: 100, height: 100, fit: BoxFit.cover),
-      //                     Text(storePictures[index].description),
-      //                   ],
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     // "Today" Section
-      //     Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: <Widget>[
-      //         Text("Today", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      //         ListView.builder(
-      //           physics: NeverScrollableScrollPhysics(),
-      //           itemCount: todayPictures.length,
-      //           shrinkWrap: true,
-      //           itemBuilder: (context, index) {
-      //             return InkWell(
-      //               onTap: () {
-      //                 // Add navigation logic to open a new page
-      //               },
-      //               child: Column(
-      //                 children: <Widget>[
-      //                   Image.network(todayPictures[index].imageUrl, width: 100, height: 100, fit: BoxFit.cover),
-      //                   Text(todayPictures[index].description),
-      //                 ],
-      //               ),
-      //             );
-      //           },
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
+      body: ListView(
+        children: <Widget>[
+          // "Mind" Section
+          Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                Text("Mind", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  children: List.generate(4, (index) {
+                    return Column(
+                      children: <Widget>[
+                        ClipOval(
+                          child: Image.asset(
+                            'assets/mind_image_$index.png',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            'Image $index',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
+              ],
+            ),
+          ),
+
+          // "Store" Section
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Store", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Container(
+                height: 150,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: storesList.length,
+                  itemBuilder: (context, index) {
+                    final store = storesList[index];
+                    return Column(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/${store.storePicture}',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(store.storeName),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+
+          // "Today" Section
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Today", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: todayPictures.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodayPage(index)));
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/${todayPictures[index].imageFileName}',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(todayPictures[index].description),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
+
+class Store {
+  final int index;
+  final String storeId;
+  final String storeName;
+  final String storePicture;
+  final String menuId;
+  final String phoneNumber;
+
+  Store({
+    required this.index,
+    required this.storeId,
+    required this.storeName,
+    required this.storePicture,
+    required this.menuId,
+    required this.phoneNumber,
+  });
+}
+
+final List<Store> storesList = [
+  Store(
+    index: 0,
+    storeId: 'store0',
+    storeName: 'Store 0',
+    storePicture: 'store_image_0.png',
+    menuId: 'menu0',
+    phoneNumber: '1234567890',
+  ),
+  Store(
+    index: 1,
+    storeId: 'store1',
+    storeName: 'Store 1',
+    storePicture: 'store_image_1.png',
+    menuId: 'menu1',
+    phoneNumber: '9876543210',
+  ),
+  // Add more store entries here as needed.
+];
 
 
 
