@@ -43,14 +43,13 @@ class MyApp extends StatelessWidget {
 
         dialogBackgroundColor: Color(0xFF8080D7), 
       ),
-      initialRoute: '/home',
+      initialRoute: '/',
       routes: {
-        //'/home': (context) => MyHomePage(title: 'home',),
+        '/home': (context) => MyHomePage(title: 'home',),
         '/signlog': (context) => LoginSignupPage(),
         // '/profile': (context) => ProfilePage(),
         // '/billing': (context) => BillingPage(),
         // '/menu': (context) => MenuPage(),
-        
         // '/login': (context) => LoginPage(),
         // '/welcome': (context) => WelcomePage(),
       },
