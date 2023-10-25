@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surface,
               ),
               child: Text(
-                'nom-nom express',
+                "nom-nom express",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSecondary,
                   fontSize: 30,
@@ -64,7 +64,7 @@ class MyHomePage extends StatelessWidget {
                 // Add your code to handle the click event for "Favorites"
               },
               child: ListTile(
-                title: Text('favorites'),
+                title: Text("What's On Your Mind"),
               ),
             ),
             GestureDetector(
@@ -72,115 +72,191 @@ class MyHomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/signlog');
               },
               child: ListTile(
-                title: Text('login/signup'),
+                title: Text('Login/Signup'),
               ),
             ),
           ],
         ),
-      ),
-
-      //------------------------------------------------------body----------------------------------------------------
-      body: ListView(
-        children: <Widget>[
-          // "Mind" Section
-          Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: <Widget>[
-                Text("Mind", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  children: List.generate(4, (index) {
-                    return Column(
-                      children: <Widget>[
-                        ClipOval(
-                          child: Image.asset(
-                            'assets/mind_image_$index.png',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 100,
-                          child: Text(
-                            'Image $index',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-              ],
-            ),
-          ),
-
-          // "Store" Section
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+      
+      body: SingleChildScrollView(
+          child: Column(
             children: <Widget>[
-              Text("Store", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              // "Mind" Section
               Container(
-                height: 150,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: storesList.length,
-                  itemBuilder: (context, index) {
-                    final store = storesList[index];
-                    return Column(
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/${store.storePicture}',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(store.storeName),
-                      ],
-                    );
-                  },
+                width: 400,
+                height: 340,
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "What's On Your Mind",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: 300,
+                      width: 300,
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        children: List.generate(4, (index) {
+                          String imageName = '';
+                          if (index == 0) {
+                            imageName = 'burger.jpg';
+                          } else if (index == 1) {
+                            imageName = 'maggi.jpg';
+                          } else if (index == 2) {
+                            imageName = 'sandwich.jpg';
+                          } else if (index == 3) {
+                            imageName = 'fries.jpg';
+                          }
+
+                          return Column(
+                            children: <Widget>[
+                              ClipOval(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white, width: 2.5), // Circular border
+                                  ),
+                                  child: Image.asset(
+                                    'assets/$imageName',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 100,
+                                height: 30,
+                                child: Text(
+                                  imageName.split('.')[0],
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-
-          // "Today" Section
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("Today", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: todayPictures.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodayPage(index)));
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/${todayPictures[index].imageFileName}',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(todayPictures[index].description),
-                      ],
+              // "Store" Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Stores", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 5),
+                  SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: storesList.length,
+                      itemBuilder: (context, index) {
+                        final store = storesList[index];
+                        return Column(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white, width: 0.5), // Rectangular border
+                              ),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    store.storePicture,
+                                    width: 150,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Container(
+                                    width: 150,
+                                    padding: EdgeInsets.only(left: 0.5, right: 0.5, bottom: 2.0), // Text border padding
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white, width: 0.5), // Text border
+                                    ),
+                                    child: Text(
+                                      store.storeName,
+                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
+              ),
+              // "Today" Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Today's Special", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 5),
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: todayList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final item = todayList[index];
+                      return Column(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 2.0), // Rectangular border
+                            ),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  item.picture,
+                                  width: 450,
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  width: 450,
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white, width: 2.0), // Text border
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        item.name,
+                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        item.store,
+                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
     );
   }
 }
+
+
+
 
 class Store {
   final int index;
@@ -200,35 +276,10 @@ class Store {
   });
 }
 
-final List<Store> storesList = [
-  Store(
-    index: 0,
-    storeId: 'store0',
-    storeName: 'Store 0',
-    storePicture: 'store_image_0.png',
-    menuId: 'menu0',
-    phoneNumber: '1234567890',
-  ),
-  Store(
-    index: 1,
-    storeId: 'store1',
-    storeName: 'Store 1',
-    storePicture: 'store_image_1.png',
-    menuId: 'menu1',
-    phoneNumber: '9876543210',
-  ),
-  // Add more store entries here as needed.
-];
-
-
-
-
-
 class MyDropdownWidget extends StatefulWidget {
   const MyDropdownWidget({Key? key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _MyDropdownWidgetState createState() => _MyDropdownWidgetState();
 }
 
@@ -266,15 +317,77 @@ class ProfileIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: CircleAvatar(
-        //backgroundColor: Colors.blue, // Background color of the circle
-        radius: 20, // Adjust the radius as needed
-        backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset
-        ),
-      
+        radius: 20,
+        backgroundImage: AssetImage('assets/profile_picture.jpg'),
+      ),
       onPressed: () {
-        // Add code to redirect to the profile page here
         Navigator.pushNamed(context, '/signlog');
       },
     );
   }
 }
+
+final List<Store> storesList = [
+  Store(
+    index: 0,
+    storeId: 'store0',
+    storeName: 'Crave',
+    storePicture: 'assets/crave.jpg',
+    menuId: 'menu0',
+    phoneNumber: '1234567890',
+  ),
+  Store(
+    index: 1,
+    storeId: 'store1',
+    storeName: 'Joos',
+    storePicture: 'assets/joos.jpg',
+    menuId: 'menu1',
+    phoneNumber: '9876543210',
+  ),
+  Store(
+    index: 2,
+    storeId: 'store2',
+    storeName: 'USA Pizza',
+    storePicture: 'assets/usapizza.jpg',
+    menuId: 'menu1',
+    phoneNumber: '9876543210',
+  ),
+  Store(
+    index: 3,
+    storeId: 'store3',
+    storeName: 'Vapour Kitchen',
+    storePicture: 'assets/vapourkit.jpg',
+    menuId: 'menu1',
+    phoneNumber: '9876543210',
+  ),
+];
+
+class TodayItem {
+  final int index;
+  final String name;
+  final String picture;
+  final String store;
+
+  TodayItem({
+    required this.index,
+    required this.name,
+    required this.picture,
+    required this.store,
+  });
+}
+
+final List<TodayItem> todayList = [
+  TodayItem(
+    index: 0,
+    name: 'Biryani',
+    picture: 'assets/briyani.jpg',
+    store: 'Roll Me',
+  ),
+  TodayItem(
+    index: 1,
+    name: 'Fries',
+    picture: 'assets/fries.jpg',
+    store: 'USA Pizza',
+  ),
+  // Add more items here as needed.
+];
