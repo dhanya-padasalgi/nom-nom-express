@@ -1,11 +1,7 @@
-
 import 'package:flutter/material.dart';
-
-
 
 class LoginSignupPage extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
   _LoginSignupPageState createState() => _LoginSignupPageState();
 }
 
@@ -20,59 +16,119 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    final onPrimaryColor = theme.colorScheme.onPrimary;
+    final secondaryColor = theme.colorScheme.secondary;
+    final onSecondaryColor = theme.colorScheme.onSecondary;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(isLoginSelected ? 'Login' : 'Signup'),
       ),
       body: Center(
-        child: Container(
-          width: 300,
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isLoginSelected ? Colors.yellow : Colors.blue,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isLoginSelected) ...[
-                TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: 100,
+              left: 30, // Add this line
+              right: 30, // Add this line
+              child: Container(
+                width: 350,
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Password'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: 175,
+                      decoration: BoxDecoration(
+                        color: isLoginSelected ? primaryColor : secondaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextButton(
+                        onPressed: toggleSelection,
+                        child: Text('Login', style: TextStyle(color: onPrimaryColor)),
+                      ),
+                    ),
+                    Container(
+                      width: 175,
+                      decoration: BoxDecoration(
+                        color: isLoginSelected ? secondaryColor : primaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextButton(
+                        onPressed: toggleSelection,
+                        child: Text('Sign up', style: TextStyle(color: onPrimaryColor)),
+                      ),
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Implement login logic here
-                  },
-                  child: Text('Login'),
-                ),
-              ] else ...[
-                TextField(
-                  decoration: InputDecoration(labelText: 'Username'),
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Password'),
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Confirm Password'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Implement signup logic here
-                  },
-                  child: Text('Create Account'),
-                ),
-              ],
-              TextButton(
-                onPressed: toggleSelection,
-                child: Text(isLoginSelected ? 'Switch to Signup' : 'Switch to Login'),
               ),
-            ],
+            ),
+            // Column 2
+            Positioned(
+              top: 250,
+              left: 30, // Add this line
+              right: 30, // Add this line
+              child: Column(
+                children: [
+                  if (isLoginSelected) ...[
+                    _buildTextField('Email', secondaryColor),
+                    _buildTextField('Password', secondaryColor),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implement login logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: primaryColor,
+                      ),
+                      child: Text('Login', style: TextStyle(color: onPrimaryColor)),
+                    ),
+                  ] else ...[
+                    _buildTextField('Username', secondaryColor),
+                    _buildTextField('Email', secondaryColor),
+                    _buildTextField('Password', secondaryColor),
+                    _buildTextField('Confirm Password', secondaryColor),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implement signup logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: primaryColor,
+                      ),
+                      child: Text('Create Account', style: TextStyle(color: onPrimaryColor)),
+                    ),
+                  ],
+                  TextButton(
+                    onPressed: toggleSelection,
+                    child: Text(
+                      isLoginSelected ? 'Switch to Signup' : 'Switch to Login',
+                      style: TextStyle(color: primaryColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String labelText, Color backgroundColor) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: labelText,
+          filled: true,
+          fillColor: backgroundColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
           ),
         ),
       ),

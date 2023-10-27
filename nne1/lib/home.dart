@@ -145,42 +145,65 @@ class MyHomePage extends StatelessWidget {
               ),
             ],
           ),
-
           // "Today" Section
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: <Widget>[
+    Text("Today", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+    ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: todayList.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final item = todayList[index];
+        return GestureDetector(
+          onTap: () {
+            // Handle the tap event here
+          },
+          child: Column(
             children: <Widget>[
-              Text("Today", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: todayPictures.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodayPage(index)));
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/${todayPictures[index].imageFileName}',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(todayPictures[index].description),
-                      ],
-                    ),
-                  );
-                },
+              Image.asset(
+                'assets/${item.image}',
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(item.image.replaceAll('.jpg', ''), textAlign: TextAlign.left),
+                  Text(item.store, textAlign: TextAlign.right),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
+        );
+      },
+    ),
+  ],
+),
+
+              ]
+            )
+          );
+        }
+      }
+
+
+class TodayItem {
+  final String image;
+  final String store;
+
+  TodayItem({required this.image, required this.store});
 }
+
+// Create a sample list of items
+final todayList = [
+  TodayItem(image: 'assets/briyani.jpg', store: 'Roll me'),
+  TodayItem(image: 'assets/burger.jpg', store: 'JOOS'),
+  // Add more items as needed
+];
+
 
 class Store {
   final int index;

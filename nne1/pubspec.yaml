@@ -24,3 +24,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+
+  assets:
+    - assets/briyani.jpg
+    - assets/burger.jpg
+    - assets/crave.jpg
+    - assets/fries.jpg
+    - assets/getstarted.jpg
+    - assets/joos.jpg
+    - assets/maggi.jpg
+    - assets/profile_picture.jpg
+    - assets/sandwich.jpg
+    - assets/usapizza.jpg
+    - assets/vapourkit.jpg
+ 
+    
