@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-URL_DATABASE = 'mysql+pymysql://root:Kalyan2306@localhost:3306/blogapplication'
+URL_DATABASE = 'mysql+pymysql://root:Kalyan2306@localhost:3306/nomnomexpress'
 
 engine = create_engine(URL_DATABASE)
 

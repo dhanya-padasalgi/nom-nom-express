@@ -14,8 +14,14 @@ class PostBase(BaseModel):
     content : str
     user_id : int
 
+class Sign_in(BaseModel):
+    username: str
+    password: str
+
 class UserBase(BaseModel):
     username: str
+    email : str
+    password: str
 
 def get_db():
     db = SessionLocal()
@@ -26,16 +32,23 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-@app.post('/users/', status_code= status.HTTP_201_CREATED)
+@app.post('/users/sign-up/{credentials}', status_code= status.HTTP_201_CREATED)
 async def create_user(user: UserBase, db: db_dependency):
     db_user = models.User(**user.dict())
     db.add(db_user)
     db.commit()
-
-@app.get('/user/get-username/{user_id}/', status_code= status.HTTP_200_OK)
-async def get_username(user_id: int, db: db_dependency):
-    user = db.query(models.User).filter(models.User.user_ID == user_id).first()
+    return {'Success': 'User Succesfully Registered'}
+    
+@app.put('/user/sign-in/{creds}', status_code= status.HTTP_200_OK)
+async def sign_into_account(credentials: Sign_in, db: db_dependency):
+    user = db.query(models.User).filter(models.User.username == credentials.username).first()
     if user is None:
         raise HTTPException(status_code= 404, detail= 'User Not Found')
-    return user
+    else:
+        if user.password == credentials.password:
+            return user
+        else:
+            raise HTTPException(status_code= 401, detail= 'Password is incorrect')
+
+
     
