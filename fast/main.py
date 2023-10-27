@@ -39,7 +39,7 @@ async def create_user(user: UserBase, db: db_dependency):
     db.commit()
     return {'Success': 'User Succesfully Registered'}
     
-@app.put('/user/sign-in/{creds}', status_code= status.HTTP_200_OK)
+@app.put('/users/sign-in/{creds}', status_code= status.HTTP_200_OK)
 async def sign_into_account(credentials: Sign_in, db: db_dependency):
     user = db.query(models.User).filter(models.User.username == credentials.username).first()
     if user is None:
