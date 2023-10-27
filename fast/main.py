@@ -31,4 +31,11 @@ async def create_user(user: UserBase, db: db_dependency):
     db_user = models.User(**user.dict())
     db.add(db_user)
     db.commit()
+
+@app.get('/user/get-username/{user_id}/', status_code= status.HTTP_200_OK)
+async def get_username(user_id: int, db: db_dependency):
+    user = db.query(models.User).filter(models.User.user_ID == user_id).first()
+    if user is None:
+        raise HTTPException(status_code= 404, detail= 'User Not Found')
+    return user
     
