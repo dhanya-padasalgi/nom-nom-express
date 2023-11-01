@@ -1,13 +1,13 @@
-
 name: nom_nom_express
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+# Remove the 'publish_to' line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 0.0.1+1
 
 environment:
-  sdk: ^3.1.1
+  sdk: '>=2.12.0 <3.0.0'  # Adjust the SDK version as needed
 
 dependencies:
   flutter:
@@ -25,7 +25,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-
   assets:
     - assets/briyani.jpg
     - assets/burger.jpg
@@ -38,5 +37,3 @@ flutter:
     - assets/sandwich.jpg
     - assets/usapizza.jpg
     - assets/vapourkit.jpg
- 
-    
