@@ -79,7 +79,7 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
 
-      //------------------------------------------------------body----------------------------------------------------
+      //--body--
       body: ListView(
         children: <Widget>[
           // "Mind" Section

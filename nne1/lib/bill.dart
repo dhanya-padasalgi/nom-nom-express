@@ -1,7 +1,13 @@
+
 import 'package:flutter/material.dart';
 
-class BillPage extends StatelessWidget {
-  final List<BillItem> items = [
+class BillPage extends StatefulWidget {
+  @override
+  _BillPageState createState() => _BillPageState();
+}
+
+class _BillPageState extends State<BillPage> {
+  List<BillItem> items = [
     BillItem(name: 'Item 1', quantity: 2, price: 10.0),
     BillItem(name: 'Item 2', quantity: 3, price: 15.0),
     BillItem(name: 'Item 3', quantity: 1, price: 5.0),
@@ -14,8 +20,9 @@ class BillPage extends StatelessWidget {
       total += item.totalPrice;
     }
     final theme = Theme.of(context);
-    final primaryColor = theme.colorScheme.primary;
     final secondaryColor = theme.colorScheme.secondary;
+    final primaryColor = theme.colorScheme.primary;
+    final onPrimaryColor = theme.colorScheme.onPrimary;
 
     return Scaffold(
       appBar: AppBar(
@@ -27,23 +34,18 @@ class BillPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 10),
-            _buildBillItems(secondaryColor,primaryColor),
+            _buildBillItems(secondaryColor, primaryColor, onPrimaryColor),
             SizedBox(height: 20),
-            Text(
-              'Total: \$${total.toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.right,
-            ),
           ],
         ),
       ),
+      bottomNavigationBar: _buildBottomBar(total, onPrimaryColor, primaryColor),
     );
   }
 
-  Widget _buildBillItems(Color secondaryColor, Color primaryColor) {
-  return Container(
-    child: ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
+  Widget _buildBillItems(
+    Color secondaryColor, Color primaryColor, Color onPrimaryColor) {
+    return ListView.builder(
       itemCount: items.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
@@ -52,7 +54,7 @@ class BillPage extends StatelessWidget {
           height: 150,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
-            color: secondaryColor,
+            color: secondaryColor, // Use secondaryColor
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -64,8 +66,12 @@ class BillPage extends StatelessWidget {
                   width: 50,
                   child: Center(
                     child: Text(
-                      item.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      item.name, // Display the item name
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor, // Use primaryColor
+                        fontSize: 18, // Increase font size
+                      ),
                     ),
                   ),
                 ),
@@ -77,17 +83,36 @@ class BillPage extends StatelessWidget {
                   width: 50,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30),
                       Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: primaryColor,
+                          color: primaryColor, // Use primaryColor
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
-                          child: QuantityWidget(item: item),
+                          child: QuantityWidget(
+                            item: item,
+                            onPrimaryColor: primaryColor,
+                            onQuantityChange: (int newQuantity) {
+                              // Update the quantity in the original dataset
+                              setState(() {
+                                item.quantity = newQuantity;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 20,
+                        child: Center(
+                          child: Text(
+                            'Amount: \$${(item.quantity * item.price).toStringAsFixed(2)}', // Display the item amount
+                            style: TextStyle(
+                              color: onPrimaryColor, // Use onPrimaryColor
+                              fontSize: 16, // Increase font size
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -98,19 +123,49 @@ class BillPage extends StatelessWidget {
           ),
         );
       },
-    ),
-  );
-}
+    );
+  }
 
-
-
-
+  Widget _buildBottomBar(double total, Color onPrimaryColor, Color primaryColor) {
+    return Container(
+      height: 60,
+      color: onPrimaryColor, // Use onPrimaryColor
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Handle button click
+              },
+              child: Text('Button'), // Display the button with text
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Total: \$${total.toStringAsFixed(2)}', // Display the total amount
+              style: TextStyle(
+                fontSize: 20, // Increase font size
+                fontWeight: FontWeight.bold,
+                color: primaryColor, // Use primaryColor
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class QuantityWidget extends StatefulWidget {
   final BillItem item;
+  final Color onPrimaryColor;
+  final Function(int) onQuantityChange;
 
-  QuantityWidget({required this.item});
+  QuantityWidget(
+      {required this.item, required this.onPrimaryColor, required this.onQuantityChange});
 
   @override
   _QuantityWidgetState createState() => _QuantityWidgetState();
@@ -128,6 +183,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
   void incrementQuantity() {
     setState(() {
       quantity++;
+      widget.onQuantityChange(quantity); // Notify the parent widget about the change
     });
   }
 
@@ -135,6 +191,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
     if (quantity > 0) {
       setState(() {
         quantity--;
+        widget.onQuantityChange(quantity); // Notify the parent widget about the change
       });
     }
   }
@@ -145,12 +202,12 @@ class _QuantityWidgetState extends State<QuantityWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
-          onTap: incrementQuantity,
+          onTap: incrementQuantity, // Increase the quantity when tapped
           child: Icon(Icons.add),
         ),
-        Text('$quantity'),
+        Text('$quantity', style: TextStyle(color: widget.onPrimaryColor)), // Display the quantity
         InkWell(
-          onTap: decrementQuantity,
+          onTap: decrementQuantity, // Decrease the quantity when tapped
           child: Icon(Icons.remove),
         ),
       ],
@@ -160,7 +217,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
 
 class BillItem {
   final String name;
-  final int quantity;
+  int quantity;
   final double price;
 
   BillItem({required this.name, required this.quantity, required this.price});
