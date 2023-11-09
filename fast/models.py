@@ -20,4 +20,3 @@ class Orders(Base):
     item_id = Column(Integer, ForeignKey(menu.item_ID, ondelete= 'CASCADE'), nullable= False)
     user_name = Column(String(50), ForeignKey(User.username, ondelete= 'CASCADE'), nullable= False)
     quantity = Column(Integer)
-
