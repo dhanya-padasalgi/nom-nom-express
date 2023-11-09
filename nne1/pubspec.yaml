@@ -10,6 +10,7 @@ environment:
   sdk: '>=2.12.0 <3.0.0'  # Adjust the SDK version as needed
 
 dependencies:
+  http: ^0.13.3  # Use the latest version
   flutter:
     sdk: flutter
 
@@ -37,3 +38,6 @@ flutter:
     - assets/sandwich.jpg
     - assets/usapizza.jpg
     - assets/vapourkit.jpg
+
+
+
