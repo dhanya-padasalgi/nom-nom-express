@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nom_nom_express/bill.dart';
 import 'package:nom_nom_express/home.dart';
+import 'package:nom_nom_express/menu.dart';
 import 'package:nom_nom_express/signlog.dart';
 void main() {
   runApp(
@@ -11,7 +12,7 @@ void main() {
         '/home': (context) => MyHomePage(),
         '/signlog': (context) => LoginSignupPage(),
         '/bill': (context) => BillPage(),
-        // '/page4': (context) => Page4(),
+         '/menu': (context) => MenuPage(),
       },
       theme: ThemeData(
         platform: TargetPlatform.android,
@@ -69,9 +70,9 @@ class WelcomePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/page4');
+                Navigator.pushNamed(context, '/menu');
               },
-              child: Text('Page 4'),
+              child: Text('Menu'),
             ),
           ],
         ),
